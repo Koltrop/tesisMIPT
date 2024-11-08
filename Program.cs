@@ -8,6 +8,7 @@ using PCRE;
 using Superpower;
 using Superpower.Model;
 using Superpower.Parsers;
+using System.IO;
 
 namespace tesis
 {
@@ -15,102 +16,73 @@ namespace tesis
     {
         static void Main(string[] args)
         {
-            string[] emails = { "test@example.com", "invalid-email", "user@domain", "another.email@domain.com" };
-            string[] phoneNumbers = { "+1234567890", "123456", "+1(234)567-890", "+987654321098765" };
-            string[] names = { "Jean-Paul","O'Connor","Élodie Durand","Franz Müller","Chloé","Nino D’Angelo",
-                              "Jean123", "@Jean-Paul", "Jean-Paul!" };
+            // Папка с файлами фамилий
+            string folderPath = Path.Combine(
+                Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName,
+                "surname_files");
+            // Шаблон для фамилий, поддерживающий UTF-8 символы и знаки
+            string namePattern = @"^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$";
 
-            // Регулярные выражения
-            string emailPattern = @"^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,6}$";
-            string phonePattern = @"^\+?[1-9]\d{1,14}$";
-            String namePattern = @"^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$";
+            Console.WriteLine("Тестирование фамилий с System.Text.RegularExpressions:");
+            TestWithRegex(folderPath, namePattern, "System.Text.RegularExpressions");
 
-            Console.WriteLine("Проверка электронной почты с System.Text.RegularExpressions:");
-            foreach (var email in emails)
-            {
-                bool isValid = Regex.IsMatch(email, emailPattern);
-                Console.WriteLine($"Email: {email} - {(isValid ? "Корректен" : "Некорректен")}");
-            }
+            Console.WriteLine("\nТестирование фамилий с PCRE.NET:");
+            TestWithPCRE(folderPath, namePattern);
 
-            Console.WriteLine("\nПроверка телефонных номеров с System.Text.RegularExpressions:");
-            foreach (var phone in phoneNumbers)
-            {
-                bool isValid = Regex.IsMatch(phone, phonePattern);
-                Console.WriteLine($"Телефон: {phone} - {(isValid ? "Корректен" : "Некорректен")}");
-            }
+            Console.WriteLine("\nТестирование фамилий с Superpower:");
+            TestWithSuperpower(folderPath, namePattern);
 
-            Console.WriteLine("\nПроверка Имя с System.Text.RegularExpressions:");
-            foreach (var name in names)
-            {
-                bool isValid = Regex.IsMatch(name, namePattern);
-                Console.WriteLine($"Телефон: {name} - {(isValid ? "Корректен" : "Некорректен")}");
-            }
-            // Примеры с PCRE.NET
-            Console.WriteLine("\nПроверка электронной почты с PCRE.NET:");
-            foreach (var email in emails)
-            {
-                bool isValid = PcreRegex.IsMatch(email, emailPattern);
-                Console.WriteLine($"Email: {email} - {(isValid ? "Корректен" : "Некорректен")}");
-            }
-
-            Console.WriteLine("\nПроверка телефонных номеров с PCRE.NET:");
-            foreach (var phone in phoneNumbers)
-            {
-                bool isValid = PcreRegex.IsMatch(phone, phonePattern);
-                Console.WriteLine($"Email: {phone} - {(isValid ? "Корректен" : "Некорректен")}");
-            }
-
-            Console.WriteLine("\nПроверка Имя с PCRE.NET:");
-            foreach (var name in names)
-            {
-                bool isValid = PcreRegex.IsMatch(name, namePattern);
-                Console.WriteLine($"Email: {name} - {(isValid ? "Корректен" : "Некорректен")}");
-            }
-
-            Console.WriteLine("\nПроверка электронной почты с Superpower:");
-            foreach (var email in emails)
-            {
-                bool isValid = EmailParser(email);
-                Console.WriteLine($"Email: {email} - {(isValid ? "Корректен" : "Некорректен")}");
-            }
-
-            Console.WriteLine("\nПроверка телефонных номеров с Superpower:");
-            foreach (var phone in phoneNumbers)
-            {
-                bool isValid = PhoneParser(phone);
-                Console.WriteLine($"Телефон: {phone} - {(isValid ? "Корректен" : "Некорректен")}");
-            }
-
-            Console.WriteLine("\nПроверка Имя с Superpower:");
-            foreach (var name in names)
-            {
-                var phonePatternSuperpower = Span.Regex(@"^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$");
-                bool isValid = phonePatternSuperpower.TryParse(name).HasValue;
-                Console.WriteLine($"Телефон: {name} - {(isValid ? "Корректен" : "Некорректен")}");
-            }
             Console.ReadLine();
         }
-        static bool EmailParser(string input)
+
+        // Функция для загрузки фамилий из файла
+        static IEnumerable<string> LoadSurnames(string filePath)
         {
-            var localPart = Character.LetterOrDigit.Or(Character.EqualTo('.')).AtLeastOnce();
-            var domain = Character.LetterOrDigit.AtLeastOnce()
-                .IgnoreThen(Character.EqualTo('.'))
-                .IgnoreThen(Character.Letter.AtLeastOnce());
-
-            var emailPattern = localPart
-                .IgnoreThen(Character.EqualTo('@'))
-                .IgnoreThen(domain);
-
-            return emailPattern.TryParse(input).HasValue;
+            return File.ReadLines(filePath, Encoding.UTF8);
         }
 
-        // Парсер для проверки телефонных номеров
-        static bool PhoneParser(string input)
+        // Тестирование с использованием System.Text.RegularExpressions
+        static void TestWithRegex(string folderPath, string pattern, string libraryName)
         {
-            // Простое регулярное выражение для проверки номера телефона (использует Superpower)
-            var phonePattern = Span.Regex(@"^\+?[1-9]\d{1,3}(-?\d{2,4}){2,3}$");
+            foreach (var filePath in Directory.GetFiles(folderPath, "*.txt"))
+            {
+                Console.WriteLine($"\nФайл: {Path.GetFileName(filePath)}");
+                foreach (var surname in LoadSurnames(filePath))
+                {
+                    bool isValid = Regex.IsMatch(surname, pattern);
+                    Console.WriteLine($"Фамилия: {surname} - {(isValid ? "Корректна" : "Некорректна")} ({libraryName})");
+                }
+            }
+        }
 
-            return phonePattern.TryParse(input).HasValue;
+        // Тестирование с использованием PCRE.NET
+        static void TestWithPCRE(string folderPath, string pattern)
+        {
+            var pcreRegex = new PcreRegex(pattern);
+            foreach (var filePath in Directory.GetFiles(folderPath, "*.txt"))
+            {
+                Console.WriteLine($"\nФайл: {Path.GetFileName(filePath)}");
+                foreach (var surname in LoadSurnames(filePath))
+                {
+                    bool isValid = pcreRegex.IsMatch(surname);
+                    Console.WriteLine($"Фамилия: {surname} - {(isValid ? "Корректна" : "Некорректна")} (PCRE.NET)");
+                }
+            }
+        }
+
+        // Тестирование с использованием Superpower
+        static void TestWithSuperpower(string folderPath, string pattern)
+        {
+            var superpowerPattern = Span.Regex(pattern);
+            foreach (var filePath in Directory.GetFiles(folderPath, "*.txt"))
+            {
+                Console.WriteLine($"\nФайл: {Path.GetFileName(filePath)}");
+                foreach (var surname in LoadSurnames(filePath))
+                {
+                    bool isValid = superpowerPattern.TryParse(surname).HasValue;
+                    Console.WriteLine($"Фамилия: {surname} - {(isValid ? "Корректна" : "Некорректна")} (Superpower)");
+                }
+            }
         }
     }
 }
