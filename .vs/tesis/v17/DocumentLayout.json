@@ -1,14 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\dmarc\\Documents\\tesis\\tesisMIPT\\",
+  "WorkspaceRootPath": "C:\\Users\\User\\Documents\\tesisMIPT\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C4F98EB8-1887-4C05-920C-614A8322DA27}|tesis.csproj|c:\\users\\dmarc\\documents\\tesis\\tesismipt\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{C4F98EB8-1887-4C05-920C-614A8322DA27}|tesis.csproj|c:\\users\\user\\documents\\tesismipt\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C4F98EB8-1887-4C05-920C-614A8322DA27}|tesis.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C4F98EB8-1887-4C05-920C-614A8322DA27}|tesis.csproj|c:\\users\\dmarc\\documents\\tesis\\tesismipt\\testlibrary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{C4F98EB8-1887-4C05-920C-614A8322DA27}|tesis.csproj|C:\\Users\\User\\Documents\\tesisMIPT\\testlibrary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C4F98EB8-1887-4C05-920C-614A8322DA27}|tesis.csproj|solutionrelative:testlibrary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C4F98EB8-1887-4C05-920C-614A8322DA27}|tesis.csproj|c:\\users\\user\\documents\\tesismipt\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{C4F98EB8-1887-4C05-920C-614A8322DA27}|tesis.csproj|solutionrelative:packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,17 +22,30 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "packages.config",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\tesisMIPT\\packages.config",
+              "RelativeDocumentMoniker": "packages.config",
+              "ToolTip": "C:\\Users\\User\\Documents\\tesisMIPT\\packages.config",
+              "RelativeToolTip": "packages.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-06-04T11:02:00.075Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "TestLibrary.cs",
-              "DocumentMoniker": "C:\\Users\\dmarc\\Documents\\tesis\\tesisMIPT\\TestLibrary.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\tesisMIPT\\TestLibrary.cs",
               "RelativeDocumentMoniker": "TestLibrary.cs",
-              "ToolTip": "C:\\Users\\dmarc\\Documents\\tesis\\tesisMIPT\\TestLibrary.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\tesisMIPT\\TestLibrary.cs",
               "RelativeToolTip": "TestLibrary.cs",
-              "ViewState": "AQIAABYAAAAAAAAAAAAQwC4AAAANAAAA",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwBkAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-14T11:08:16.506Z",
               "EditorCaption": ""
@@ -37,11 +54,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\dmarc\\Documents\\tesis\\tesisMIPT\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\tesisMIPT\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\dmarc\\Documents\\tesis\\tesisMIPT\\Program.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\tesisMIPT\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAowCAAAAAhAAAA",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAgwBQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-08T13:54:09.739Z",
               "EditorCaption": ""

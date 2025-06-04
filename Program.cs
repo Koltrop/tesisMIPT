@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using Npgsql;
 using System.IO;
 
 namespace tesis
@@ -12,36 +13,100 @@ namespace tesis
     {
         static void Main(string[] args)
         {
-            string folderPath = Path.Combine(
-               Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName,
-               "surname_files");
-
-            // Шаблон для фамилий, поддерживающий UTF-8 символы и знаки
+            // Database connection string
+            string connString = "Host=localhost;Database=tesis;Username=postgres;Password=7415";
+  
+            // Pattern for validating names and surnames
             string namePattern = @"^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$";
 
-            //retest: true for tests
-            TestLibrary.RunTests(folderPath, namePattern, retest: false);
+            // Create output directory if it doesn't exist
+            string outputDir = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName, "invalid_entries");
+            Directory.CreateDirectory(outputDir);
 
-            foreach (var filePath in Directory.GetFiles(folderPath, "*.txt"))
+            // Files for invalid entries
+            string invalidForenamesFile = Path.Combine(outputDir, "invalid_forenames.txt");
+            string invalidNamesFile = Path.Combine(outputDir, "invalid_names.txt");
+
+            try
             {
-                var surnames = File.ReadLines(filePath, Encoding.UTF8);
-                var count = 0;
-                Console.WriteLine($"\nФайл: {Path.GetFileName(filePath)}");
-                foreach (var surname in surnames)
+                using (var conn = new NpgsqlConnection(connString))
                 {
-                    bool isValid = Regex.IsMatch(surname, namePattern);
-                    if (!isValid)
+                    conn.Open();
+                    Console.WriteLine("Connected to database successfully!");
+
+                    // Check forenames (surnames)
+                    Console.WriteLine("\nChecking forenames (surnames):");
+                    using (var cmd = new NpgsqlCommand("SELECT id, forename FROM forenames", conn))
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        Console.WriteLine($"Фамилия: {surname} - Некорректна");
-                        count++;
+                        int invalidCount = 0;
+                        using (StreamWriter writer = new StreamWriter(invalidForenamesFile, false, Encoding.UTF8))
+                        {
+                            writer.WriteLine("ID\tForename");
+                            while (reader.Read())
+                            {
+                                int id = reader.GetInt32(0);
+                                string forename = reader.GetString(1);
+                                bool isValid = Regex.IsMatch(forename, namePattern);
+                                if (!isValid)
+                                {
+                                    Console.WriteLine($"Forename: {forename} - Invalid");
+                                    writer.WriteLine($"{id}\t{forename}");
+                                    invalidCount++;
+                                }
+                            }
+                        }
+                        if (invalidCount == 0)
+                        {
+                            Console.WriteLine("All forenames are valid!");
+                            File.WriteAllText(invalidForenamesFile, "No invalid forenames found.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Found {invalidCount} invalid forenames. Saved to {invalidForenamesFile}");
+                        }
+                    }
+
+                    // Check names
+                    Console.WriteLine("\nChecking names:");
+                    using (var cmd = new NpgsqlCommand("SELECT id, name FROM names", conn))
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        int invalidCount = 0;
+                        using (StreamWriter writer = new StreamWriter(invalidNamesFile, false, Encoding.UTF8))
+                        {
+                            writer.WriteLine("ID\tName");
+                            while (reader.Read())
+                            {
+                                int id = reader.GetInt32(0);
+                                string name = reader.GetString(1);
+                                bool isValid = Regex.IsMatch(name, namePattern);
+                                if (!isValid)
+                                {
+                                    Console.WriteLine($"Name: {name} - Invalid");
+                                    writer.WriteLine($"{id}\t{name}");
+                                    invalidCount++;
+                                }
+                            }
+                        }
+                        if (invalidCount == 0)
+                        {
+                            Console.WriteLine("All names are valid!");
+                            File.WriteAllText(invalidNamesFile, "No invalid names found.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Found {invalidCount} invalid names. Saved to {invalidNamesFile}");
+                        }
                     }
                 }
-                if(count == 0)
-                {
-                    Console.WriteLine($"Все фамиля в {filePath} прошли проверки");
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
             }
 
+            Console.WriteLine("\nPress Enter to exit...");
             Console.ReadLine();
         }
     }
