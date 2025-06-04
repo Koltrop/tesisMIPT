@@ -11,7 +11,7 @@
       "RelativeMoniker": "D:0:0:{C4F98EB8-1887-4C05-920C-614A8322DA27}|tesis.csproj|solutionrelative:testlibrary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C4F98EB8-1887-4C05-920C-614A8322DA27}|tesis.csproj|c:\\users\\user\\documents\\tesismipt\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "AbsoluteMoniker": "D:0:0:{C4F98EB8-1887-4C05-920C-614A8322DA27}|tesis.csproj|C:\\Users\\User\\Documents\\tesisMIPT\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
       "RelativeMoniker": "D:0:0:{C4F98EB8-1887-4C05-920C-614A8322DA27}|tesis.csproj|solutionrelative:packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     }
   ],
@@ -34,8 +34,7 @@
               "RelativeToolTip": "packages.config",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2025-06-04T11:02:00.075Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-04T11:02:00.075Z"
             },
             {
               "$type": "Document",
@@ -47,8 +46,7 @@
               "RelativeToolTip": "TestLibrary.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAgwBkAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-14T11:08:16.506Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-14T11:08:16.506Z"
             },
             {
               "$type": "Document",
@@ -58,7 +56,7 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\User\\Documents\\tesisMIPT\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAwwDUAAABKAAAAAAAAAA==",
+              "ViewState": "AgIAALkAAAAAAAAAAAAwwNEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-08T13:54:09.739Z",
               "EditorCaption": ""

@@ -1,0 +1,2 @@
+Regular Expression: ^[\ -zÀ-ÖØ-ừ¿×]+$
+No invalid names found.
